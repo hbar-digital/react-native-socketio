@@ -2,6 +2,7 @@ package com.gcrabtree.rctsocketio;
 
 import android.util.Log;
 
+import com.facebook.jni.HybridData;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableNativeMap;
 
@@ -15,43 +16,9 @@ import io.socket.client.IO;
 
 public class SocketIoReadableNativeMap extends ReadableNativeMap {
     private static final String TAG = "SIOReadableNativeMap";
-    /**
-     * Note: This will only be necessary until RN version 0.26 goes live
-     * It will be deprecated from the project, as this is just included in that version of RN.
-     *
-     * This converts the SocketIoReadableNativeMap to a Java usable HashMap.
-     * @return converted HashMap.
-     */
-    public static HashMap<String, Object> toHashMap(ReadableNativeMap map) {
-        ReadableMapKeySetIterator iterator = map.keySetIterator();
-        HashMap<String, Object> hashMap = new HashMap<>();
 
-        while (iterator.hasNextKey()) {
-            String key = iterator.nextKey();
-            switch (map.getType(key)) {
-                case Null:
-                    hashMap.put(key, null);
-                    break;
-                case Boolean:
-                    hashMap.put(key, map.getBoolean(key));
-                    break;
-                case Number:
-                    hashMap.put(key, map.getDouble(key));
-                    break;
-                case String:
-                    hashMap.put(key, map.getString(key));
-                    break;
-                case Map:
-                    hashMap.put(key, toHashMap(map.getMap(key)));
-                    break;
-                case Array:
-                    hashMap.put(key, ((SocketIoReadableNativeArray) map.getArray(key)).toArrayList());
-                    break;
-                default:
-                    throw new IllegalArgumentException("Could not convert object with key: " + key + ".");
-            }
-        }
-        return hashMap;
+    protected SocketIoReadableNativeMap(HybridData hybridData) {
+      super(hybridData);
     }
 
     /**
