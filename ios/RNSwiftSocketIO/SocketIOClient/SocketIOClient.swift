@@ -182,7 +182,7 @@ public final class SocketIOClient : NSObject, SocketEngineClient, SocketParsable
 
         // Don't handle as internal because something crazy could happen where
         // we disconnect before it's handled
-        handleEvent("connect", data: [], isInternalMessage: false)
+        handleEvent("connect", data: [(engine?.sid)!], isInternalMessage: false)
     }
 
     func didDisconnect(reason: String) {
